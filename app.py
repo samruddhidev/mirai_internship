@@ -1,29 +1,28 @@
 import streamlit as st
 
-st.set_page_config(page_title="Feedback Portal", page_icon="💬")
+st.set_page_config(page_title="Echo Chamber")
 
-st.title("💬 Feedback Portal")
-st.write("Please fill in the details below.")
+st.title("Echo Chamber")
+st.write("Enter your name and message below, then click Transmit.")
 
-name = st.text_input("Enter your Name")
-email = st.text_input("Enter your Email")
-message = st.text_area("Enter your Feedback")
+user_name = st.text_input("Name")
+user_message = st.text_input("Message")
 
-character_count = len(message)
-word_count = len(message.split())
-estimated_tokens = round(character_count / 4)
+if st.button("Transmit"):
 
-if st.button("Submit Feedback"):
+    if not user_name.strip():
+        st.error("Please provide your name.")
 
-    if not name.strip() or not email.strip() or not message.strip():
-        st.error("Please complete all the fields before submitting.")
+    elif not user_message.strip():
+        st.warning("Please type a message to transmit.")
 
     else:
-        st.success(f"Thank you, {name}! Your feedback has been submitted successfully.")
+        token_count = round(len(user_message) / 4, 2)
 
-        st.info(f"Estimated Tokens Used: {estimated_tokens}")
+        st.success(
+            f"Transmission successful! Greetings, {user_name}. We received your message: {user_message}"
+        )
 
-        st.write("### Feedback Summary")
-        st.write(f"**Email:** {email}")
-        st.write(f"**Word Count:** {word_count}")
-        st.write(f"**Character Count:** {character_count}")
+        st.info(
+            f"System Check: Your message will consume approximately {token_count} tokens from our context window."
+        )
